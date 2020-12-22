@@ -7,10 +7,10 @@
 
     
 
-    <title>我的一篇文章 | qyhjoystick</title>
+    <title>spring中的代理 | qyhjoystick</title>
     <meta name="author" content="qyh" />
     <meta name="keywords" content="" />
-    <meta name="description" content="qyhjoystick()" />
+    <meta name="description" content="首先我们来看一下静态代理和动态代理的区别：1.静态代理：1234567891011121314151617181920212223242526272829303132333435363738394041424344public class Main2 &amp;#123;	&amp;#x2F;&amp;#x2F;这里传入的是接口类型的对象，方便向上转型，实现多态	public static void consumer(ProxyInterface pi)&amp;#123;		pi.say();	&amp;#125;	public s" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 
@@ -174,25 +174,49 @@ Mi0yMlQwODo0ODowMyswMDowMPdrrNsAAAAASUVORK5CYII=" />
     <header class="article-header">
         
         <h1 itemprop="name">
-            我的一篇文章
+            spring中的代理
         </h1>
         
         <div class="article-meta clearfix">
-            <a class="article-date" href="https://qyhjoystick.github.io/2020/12/22/%E6%88%91%E7%9A%84%E6%B5%8B%E8%AF%95/index.html">
+            <a class="article-date" href="https://qyhjoystick.github.io/2020/12/22/spring%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%90%86/index.html">
     
     <i class="icon-calendar vm"></i>
     
-    <time class="vm" datetime="2020-12-22T13:22:08.785Z" itemprop="datePublished">2020-12-22</time>
+    <time class="vm" datetime="2020-12-22T14:18:40.018Z" itemprop="datePublished">2020-12-22</time>
 </a>
 
             
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/tags/java/" rel="tag">java</a>
+</div>
+
 
         </div>
     </header>
     
     <section class="article-body markdown-body">
         
-        <p><code>qyhjoystick()</code></p>
+        <p>首先我们来看一下静态代理和动态代理的区别：</p>
+<a id="more"></a>
+<p>1.静态代理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class Main2 &#123;</span><br><span class="line">	&#x2F;&#x2F;这里传入的是接口类型的对象，方便向上转型，实现多态</span><br><span class="line">	public static void consumer(ProxyInterface pi)&#123;</span><br><span class="line">		pi.say();</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F; TODO Auto-generated method stub</span><br><span class="line">		consumer(new ProxyObject());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;代理接口</span><br><span class="line">interface ProxyInterface&#123;</span><br><span class="line">	public void say();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;被代理者</span><br><span class="line">class RealObject implements ProxyInterface&#123;</span><br><span class="line">	&#x2F;&#x2F;实现接口方法</span><br><span class="line">	@Override</span><br><span class="line">	public void say() &#123;</span><br><span class="line">		&#x2F;&#x2F; TODO Auto-generated method stub</span><br><span class="line">		System.out.println(&quot;say&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;代理者</span><br><span class="line">class ProxyObject implements ProxyInterface&#123;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void say() &#123;</span><br><span class="line">		&#x2F;&#x2F; TODO Auto-generated method stub</span><br><span class="line">		&#x2F;&#x2F;dosomething for example</span><br><span class="line">		System.out.println(&quot;hello proxy&quot;);</span><br><span class="line">		new RealObject().say();</span><br><span class="line">		System.out.println(&quot;this is method end&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">hello proxy</span><br><span class="line">say</span><br><span class="line">this is method end</span><br></pre></td></tr></table></figure>
+<p>控制台输出：</p>
+<blockquote>
+<p>hello proxy<br>say<br>this is method end</p>
+</blockquote>
+<p>2.动态代理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">package docker.demo;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.InvocationHandler;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * @program:dockerdemo</span><br><span class="line"> * @desc:</span><br><span class="line"> * @author:qiyihang</span><br><span class="line"> * @date:2020&#x2F;12&#x2F;15</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class DynamicProxy &#123;</span><br><span class="line">    static void customer(ProxyInterface pi)&#123;</span><br><span class="line">        pi.say();</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        RealObject real &#x3D; new RealObject();</span><br><span class="line">        ProxyInterface proxy &#x3D; (ProxyInterface) Proxy.newProxyInstance(ProxyInterface.class.getClassLoader(),new Class[]&#123;ProxyInterface.class&#125;, new ProxyObject(real));</span><br><span class="line">        customer(proxy);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface ProxyInterface&#123;</span><br><span class="line">    void say();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;被代理类</span><br><span class="line">class RealObject implements ProxyInterface&#123;</span><br><span class="line">    public void say()&#123;</span><br><span class="line">        System.out.println(&quot;i&#39;m talking&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;代理类，实现InvocationHandler 接口</span><br><span class="line">class ProxyObject implements InvocationHandler &#123;</span><br><span class="line">    private Object proxied &#x3D; null;</span><br><span class="line">    public ProxyObject()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public ProxyObject(Object proxied)&#123;</span><br><span class="line">        this.proxied  &#x3D; proxied;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object invoke(Object arg0, Method arg1, Object[] arg2) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;hello&quot;);</span><br><span class="line">        return arg1.invoke(proxied, arg2);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>控制台输出：</p>
+<blockquote>
+<p>hello<br>i’m talking</p>
+</blockquote>
+<p>代理类实现了<code>InvocationHandler</code>接口，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ProxyInterface proxy &#x3D; (ProxyInterface) Proxy.newProxyInstance(ProxyInterface.class.getClassLoader(),new Class[]&#123;ProxyInterface.class&#125;, new ProxyObject(real));</span><br></pre></td></tr></table></figure>
+<p>得到接口的实例，作为参数传递到<code>customer()</code>，这里每一个在代理类上处理的东西也会被重定向到调用处理器上。</p>
+<p><code>Proxy.newProxyInstance()</code>方法，接收三个参数：第一个参数指定当前目标对象使用的类加载器,获取加载器的方法是固定的；第二个参数指定目标对象实现的接口的类型；第三个参数指定动态处理器，执行目标对象的方法时,会触发事件处理器的方法。</p>
+<hr>
+<p>源码分析之后补上，先做个记录<br>一篇不错的文章:<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015262333">从动态代理到SpringAop以及AspectJ风格</a></p>
 
         
     </section>
@@ -200,10 +224,10 @@ Mi0yMlQwODo0ODowMyswMDowMPdrrNsAAAAASUVORK5CYII=" />
 
 
 
-<a id="pagenext" href="/2020/12/22/hello-world/" class="article-next" title="Hello World"><i class="icon-arrow-right"></i></a>
+<a id="pagenext" href="/2020/11/20/springboot%E7%AE%80%E5%8D%95%E8%87%AA%E5%AE%9A%E4%B9%89aop%E5%AE%9E%E7%8E%B0/" class="article-next" title="springboot简单自定义aop实现（并附@Aspect方法源码解析））"><i class="icon-arrow-right"></i></a>
 
 
-<a id="pageprev" href="/2020/12/22/%E6%88%91%E7%9A%84%E6%B5%8B%E8%AF%952/" class="article-prev" title="我的第二篇文章"><i class="icon-arrow-left"></i></a>
+<a id="pageprev" href="/2020/12/22/%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8Erancher%E6%8E%A7%E5%88%B6%E7%9A%84k8s%E9%9B%86%E7%BE%A4/" class="article-prev" title="搭建基于rancher控制的k8s集群"><i class="icon-arrow-left"></i></a>
 
 
 

@@ -260,51 +260,6 @@ Mi0yMlQwODo0ODowMyswMDowMPdrrNsAAAAASUVORK5CYII=" />
 </article>
 
 
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2020/11/20/springboot%E7%AE%80%E5%8D%95%E8%87%AA%E5%AE%9A%E4%B9%89aop%E5%AE%9E%E7%8E%B0/">springboot简单自定义aop实现（并附@Aspect方法源码解析））</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="https://qyhjoystick.github.io/index.html">
-    
-    <i class="icon-calendar vm"></i>
-    
-    <time class="vm" datetime="2020-11-20T12:00:00.000Z" itemprop="datePublished">2020-11-20</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag vm"></i>
-    <a class="article-tag-link" href="/tags/java/" rel="tag">java</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p>1.添加依赖：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-aop&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>2.定义controller和service<br>controller：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">    private TestServiceImpl testService;</span><br><span class="line"></span><br><span class="line">@PostMapping(&quot;&#x2F;aoptest&quot;)</span><br><span class="line">    public int aoptest() &#123;</span><br><span class="line">        return testService.div(6,3);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-        
-        <p class="article-more-link">
-            <a href="/2020/11/20/springboot%E7%AE%80%E5%8D%95%E8%87%AA%E5%AE%9A%E4%B9%89aop%E5%AE%9E%E7%8E%B0/#more">
-                <span class="vm">阅读更多</span>
-                <i class="icon-arrow-double-right vm"></i>    
-            </a>
-        </p>
-        
-        
-    </section>
-</article>
-
-
 
 
 

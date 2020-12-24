@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+
+    
+
+    
+
+    <title>HTTPS原理 | qyhjoystick</title>
+    <meta name="author" content="qyh" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="HTTPS相较于HTTP，可以防止中间人进行窃听、篡改信息和冒充服务，以下是https的相关原理1.https最终采取的安全通信方法是采用对称加密（对称加密速度快性能高）：那么怎么样将密钥安全得给到客户端呢？2.非对称加密，解决单向对称密钥的传输问题：非对称加密即加解密双方使用不同的密钥，一把作为公钥，可以公开的，一把作为私钥，不能公开，公钥加密的密文只有私钥可以解密，私钥加密的内容，也只有公钥可以解密。注：私钥加密其实这个说法其实并不严谨，准确的说私钥加密应该叫私钥签名，因为私密加密的信息公钥" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+
+    
+    <link rel="alternate" href="/atom.xml" title="qyhjoystick" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.ico">
+    
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'icomoon';
+        src: url("/fonts/icomoon.eot?q628ml");
+        src: url("/fonts/icomoon.eot?q628ml#iefix") format('embedded-opentype'),
+             url("/fonts/icomoon.ttf?q628ml") format('truetype'),
+             url("/fonts/icomoon.woff?q628ml") format('woff'),
+             url("/fonts/icomoon.svg?q628ml#icomoon") format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    </style>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!--[if lt IE 9]><style type="text/css">.nav-inner {top:0;}.author-meta {position:static;top:0;}.search-form {height:36px;}</style><script type="text/javascript" src="https://unpkg.com/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+
+    <main class="app">
+        <header id="header" class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">qyhjoystick</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/tags">
+                <span class="nav-text">标签</span>
+            </a>
+        
+            <a class="nav-item" href="/archives">
+                <span class="nav-text">归档</span>
+            </a>
+        
+            <a class="nav-item" href="/about">
+                <span class="nav-text">关于</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://qyhjoystick.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTPS%E7%9B%B8%E8%BE%83%E4%BA%8EHTTP%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%98%B2%E6%AD%A2%E4%B8%AD%E9%97%B4%E4%BA%BA%E8%BF%9B%E8%A1%8C%E7%AA%83%E5%90%AC%E3%80%81%E7%AF%A1%E6%94%B9%E4%BF%A1%E6%81%AF%E5%92%8C%E5%86%92%E5%85%85%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%BB%A5%E4%B8%8B%E6%98%AFhttps%E7%9A%84%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">HTTPS相较于HTTP，可以防止中间人进行窃听、篡改信息和冒充服务，以下是https的相关原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-https%E6%9C%80%E7%BB%88%E9%87%87%E5%8F%96%E7%9A%84%E5%AE%89%E5%85%A8%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95%E6%98%AF%E9%87%87%E7%94%A8%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%88%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E9%80%9F%E5%BA%A6%E5%BF%AB%E6%80%A7%E8%83%BD%E9%AB%98%EF%BC%89%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">1.https最终采取的安全通信方法是采用对称加密（对称加密速度快性能高）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%8C%E8%A7%A3%E5%86%B3%E5%8D%95%E5%90%91%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E7%9A%84%E4%BC%A0%E8%BE%93%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2.非对称加密，解决单向对称密钥的传输问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%EF%BC%8C%E8%A7%A3%E5%86%B3%E5%85%AC%E9%92%A5%E4%BC%A0%E8%BE%93%E4%BF%A1%E4%BB%BB%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">3.数字证书，解决公钥传输信任问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%A6%82%E4%BD%95%E6%8A%93%E5%8F%96HTTPS%E4%BC%A0%E9%80%92%E7%9A%84%E6%98%8E%E6%96%87%E4%BF%A1%E6%81%AF%EF%BC%9F"><span class="toc-number">1.4.</span> <span class="toc-text">4.如何抓取HTTPS传递的明文信息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B1%E6%AD%A4%E5%8F%AF%E7%9F%A5%EF%BC%8Ccharles-%E8%BF%99%E4%BA%9B%E4%B8%AD%E9%97%B4%E4%BA%BA%E8%83%BD%E6%8A%93%E5%8F%96-HTTPS-%E5%8C%85%E7%9A%84%E5%89%8D%E6%8F%90%E6%98%AF%E4%BF%A1%E4%BB%BB%E5%AE%83%E4%BB%AC%E7%9A%84-CA-%E8%AF%81%E4%B9%A6%EF%BC%8C%E7%84%B6%E5%90%8E%E5%B0%B1%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E6%9B%BF%E6%8D%A2%E8%AF%81%E4%B9%A6%E7%9A%84%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%9E%92%E5%A4%A9%E8%BF%87%E6%B5%B7%EF%BC%8C%E6%89%80%E4%BB%A5%E6%88%91%E4%BB%AC%E5%8D%83%E4%B8%87%E4%B8%8D%E8%A6%81%E9%9A%8F%E4%BE%BF%E4%BF%A1%E4%BB%BB%E7%AC%AC%E4%B8%89%E6%96%B9%E7%9A%84%E8%AF%81%E4%B9%A6%EF%BC%8C%E9%81%BF%E5%85%8D%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E3%80%82"><span class="toc-number">1.5.</span> <span class="toc-text">由此可知，charles 这些中间人能抓取 HTTPS 包的前提是信任它们的 CA 证书，然后就可以通过替换证书的方式进行瞒天过海，所以我们千万不要随便信任第三方的证书，避免安全风险。</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content">
+            <div id="wrapper" class="wrapper" style="max-width: 800px">
+                <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            HTTPS原理
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://qyhjoystick.github.io/2020/12/24/HTTPS%E5%8E%9F%E7%90%86/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2020-12-24T12:46:39.290Z" itemprop="datePublished">2020-12-24</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/tags/JAVA/" rel="tag">JAVA</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h1 id="HTTPS相较于HTTP，可以防止中间人进行窃听、篡改信息和冒充服务，以下是https的相关原理"><a href="#HTTPS相较于HTTP，可以防止中间人进行窃听、篡改信息和冒充服务，以下是https的相关原理" class="headerlink" title="HTTPS相较于HTTP，可以防止中间人进行窃听、篡改信息和冒充服务，以下是https的相关原理"></a>HTTPS相较于HTTP，可以防止中间人进行窃听、篡改信息和冒充服务，以下是https的相关原理</h1><hr>
+<h2 id="1-https最终采取的安全通信方法是采用对称加密（对称加密速度快性能高）："><a href="#1-https最终采取的安全通信方法是采用对称加密（对称加密速度快性能高）：" class="headerlink" title="1.https最终采取的安全通信方法是采用对称加密（对称加密速度快性能高）："></a>1.https最终采取的安全通信方法是采用对称加密（对称加密速度快性能高）：</h2><p><img src="https://upload-images.jianshu.io/upload_images/14430142-fdea880bd6ed80a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对称加密"><br>那么怎么样将密钥安全得给到客户端呢？</p>
+<h2 id="2-非对称加密，解决单向对称密钥的传输问题："><a href="#2-非对称加密，解决单向对称密钥的传输问题：" class="headerlink" title="2.非对称加密，解决单向对称密钥的传输问题："></a>2.非对称加密，解决单向对称密钥的传输问题：</h2><p>非对称加密即加解密双方使用不同的密钥，一把作为公钥，可以公开的，一把作为私钥，不能公开，公钥加密的密文只有私钥可以解密，私钥加密的内容，也只有公钥可以解密。</p>
+<a id="more"></a>
+<p>注：私钥加密其实这个说法其实并不严谨，准确的说私钥加密应该叫私钥签名，因为私密加密的信息公钥是可以解密的，而公钥是公开的，任何人都可以拿到，用公钥解密叫做验签</p>
+<p><strong>这样的话对于 server 来说，保管好私钥，发布公钥给其他 client, 其他 client 只要把对称加密的密钥加密传给 server 即可，如此一来由于公钥加密只有私钥能解密，而私钥只有 server 有，所以能保证 client 向 server 传输是安全的，server 解密后即可拿到对称加密密钥，这样交换了密钥之后就可以用对称加密密钥通信了。</strong></p>
+<p>但是问题又来了， server 怎么把公钥安全地传输给 client 呢。如果直接传公钥，也会存在被中间人调包的风险。</p>
+<h2 id="3-数字证书，解决公钥传输信任问题："><a href="#3-数字证书，解决公钥传输信任问题：" class="headerlink" title="3.数字证书，解决公钥传输信任问题："></a>3.数字证书，解决公钥传输信任问题：</h2><p>如何解决公钥传输问题呢，从现实生活中的场景找答案，员工入职时，企业一般会要求提供学历证明，显然不是什么阿猫阿狗的本本都可称为学历，这个学历必须由第三方权威机构（Certificate Authority，简称 CA）即教育部颁发，同理，server 也可以向 CA 申请证书，在证书中附上公钥，然后将证书传给 client，证书由站点管理者向 CA 申请，申请的时候会提交 DNS 主机名等信息，CA 会根据这些信息生成证书：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-ff965adb73d360b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="证书"><br>这样当 client 拿到证书后，就可以获得证书上的公钥，再用此公钥加密对称加密密钥传给 server 即可，看起来确实很完美，不过在这里大家要考虑两个问题:<br>1.如何验证证书的真实性，如何防止证书被篡改:</p>
+<p>想象一下上文中我们提到的学历，企业如何认定你提供的学历证书是真是假呢，答案是用学历编号，企业拿到证书后用学历编号在学信网上一查就知道证书真伪了，学历编号其实就是我们常说的数字签名，可以防止证书造假。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/14430142-e5b985165b9c6835.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>2.客户端拿到证书后也用同样的摘要算法对证书明文计算摘要，两者一笔对就可以发现报文是否被篡改了，那为啥要用第三方权威机构（Certificate Authority，简称 CA）私钥对摘要加密呢，因为摘要算法是公开的，中间人可以替换掉证书明文，再根据证书上的摘要算法计算出摘要后把证书上的摘要也给替换掉！这样 client 拿到证书后计算摘要发现一样，误以为此证书是合法就中招了。所以必须要用 CA 的私钥给摘要进行加密生成签名，这样的话 client 得用 CA 的公钥来给签名解密，拿到的才是未经篡改合法的摘要（私钥签名，公钥才能解密）server 将证书传给 client 后，client 的验签过程如下(公钥解密叫做验签):<br><img src="https://upload-images.jianshu.io/upload_images/14430142-9d14c3e19f0d3c87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>这样的话，由于只有 CA 的公钥才能解密签名，如果客户端收到一个假的证书，使用 CA 的公钥是无法解密的，如果客户端收到了真的证书，但证书上的内容被篡改了，摘要比对不成功的话，客户端也会认定此证书非法。</p>
+<p>细心的你一定发现了问题，CA 公钥如何安全地传输到 client ？如果还是从 server 传输到 client，依然无法解决公钥被调包的风险，实际上此公钥是存在于 CA 证书上，而此证书（也称 Root CA 证书）被操作系统信任，内置在操作系统上的，无需传输。server 传输 CA 颁发的证书，客户中收到证书后使用内置 CA 证书中的公钥来解密签名，验签即可，这样的话就解决了公钥传输过程中被调包的风险。</p>
+<p>3.但任何站点都可以向第三方权威机构申请证书，中间人也不例外。正常站点和中间人都可以向 CA 申请证书，获得认证的证书由于都是 CA 颁发的，所以都是合法的，那么此时中间人是否可以在传输过程中将正常站点发给 client 的证书替换成自己的证书呢？</p>
+<p>答案是不行，因为客户端除了通过验签的方式验证证书是否合法之外，还需要验证证书上的域名与自己的请求域名是否一致，中间人中途虽然可以替换自己向 CA 申请的合法证书，但此证书中的域名与 client 请求的域名不一致，client 会认定为不通过！</p>
+<h2 id="4-如何抓取HTTPS传递的明文信息？"><a href="#4-如何抓取HTTPS传递的明文信息？" class="headerlink" title="4.如何抓取HTTPS传递的明文信息？"></a>4.如何抓取HTTPS传递的明文信息？</h2><p>上面的证书调包给了我们一种思路，什么思路？大家想想，  HTTPS 既然是加密的， charles 这些「中间人」为啥能抓到明文的包呢，其实就是用了证书调包这一手法，想想看，在用 charles 抓 HTTPS 的包之前我们先要做什么，当然是安装 charles 的证书，这个证书里有 charles 的公钥，这样的话 charles 就可以将 server 传给 client 的证书调包成自己的证书，client 拿到后就可以用你安装的 charles  证书来验签等，验证通过之后就会用 charles 证书中的公钥来加密对称密钥了，整个流程如下：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-e720aef0862047ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="由此可知，charles-这些中间人能抓取-HTTPS-包的前提是信任它们的-CA-证书，然后就可以通过替换证书的方式进行瞒天过海，所以我们千万不要随便信任第三方的证书，避免安全风险。"><a href="#由此可知，charles-这些中间人能抓取-HTTPS-包的前提是信任它们的-CA-证书，然后就可以通过替换证书的方式进行瞒天过海，所以我们千万不要随便信任第三方的证书，避免安全风险。" class="headerlink" title="由此可知，charles 这些中间人能抓取 HTTPS 包的前提是信任它们的 CA 证书，然后就可以通过替换证书的方式进行瞒天过海，所以我们千万不要随便信任第三方的证书，避免安全风险。"></a>由此可知，charles 这些中间人能抓取 HTTPS 包的前提是信任它们的 CA 证书，然后就可以通过替换证书的方式进行瞒天过海，所以我们千万不要随便信任第三方的证书，避免安全风险。</h2><p>一些相关概念：</p>
+<ul>
+<li>证书信任链：<br>前文说了，我们可以向 CA 申请证书，但全世界的顶级 CA（Root CA） 就那么几个，每天都有很多人要向它申请证书，它也忙不过来啊，怎么办呢，想想看在一个公司里如果大家都找 CEO 办事，他是不是要疯了，那他能怎么办？授权，他会把权力交给 CTO，CFO 等，这样你们只要把 CTO 之类的就行了，CTO 如果也忙不过来呢，继续往下授权啊。<br><img src="https://upload-images.jianshu.io/upload_images/14430142-7a294b7dccab92ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<p>如果站点申请的是二级 CA 颁发的证书，client 收到之后会如何验证这个证书呢，实际上 service 传了传给二级 CA 的证书外，还会把证书信任链也一起传给客户端，这样客户端会按如下步骤进行验证：</p>
+<p>1.浏览器就使用信任的根证书（根公钥）解析证书链的根证书得到一级证书的公钥+摘要验签<br>2.拿一级证书的公钥解密一级证书，拿到二级证书的公钥和摘要验签<br>3.再然后拿二级证书的公钥解密 server 传过来的二级证书，得到服务器的公钥和摘要验签，验证过程就结束了</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MjM5NzMyMjAwMA==&mid=2651491698&idx=1&sn=b445a10dee587b4f54e3c2d449a6e4f0&chksm=bd25e10d8a52681bb31f1a3068157222e9d97baccd2d6e7d2b92939c96b7dc4868d7f07b3ba1&mpshare=1&scene=1&srcid=1212HF1gPgwmiJJV1b3Vu8jz&sharer_sharetime=1607745405788&sharer_shareid=48bc45c87ad20f99577b743110dea54e&key=7a5a542d4d3c4fcbd14fa750e178aade0e77c8b405c2041b7cddee1bd8c543b3763c54874e338fd6419a2f88806babc7452adb949685d38610873c8c52e3cd21964480581f31de398bea5995b91628b110e95bd40acb51e42b6c188a77ae3768ad3b90f034691acdf9379caa0ed32fb463b33849a922753b80204812f66af358&ascene=1&uin=MTg1MzE3NTMwMQ==&devicetype=Windows+10+x64&version=6300002f&lang=zh_CN&exportkey=ARkyb/IzFdyuz+bXioJE/Jw=&pass_ticket=lOjeP26tvRHeiLIkwikCyd2CnW8HecoJKTOaqfFJ2d38/O517FzxraTixbI8/mw/&wx_header=0">摘抄自ImportNew公众号</a></p>
+
+        
+    </section>
+</article>
+
+
+
+<a id="pagenext" href="/2020/12/22/%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8Erancher%E6%8E%A7%E5%88%B6%E7%9A%84k8s%E9%9B%86%E7%BE%A4/" class="article-next" title="搭建基于rancher控制的k8s集群"><i class="icon-arrow-right"></i></a>
+
+
+
+
+
+            </div>
+        </div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e4027971a230b210f4671f485b33846a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://unpkg.com/jquery@1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle('normal', slideDone);
+        });
+
+        if (window.innerWidth <= 960) {
+            setTimeout(function() {
+                nodes.navInner.slideUp('normal', slideDone);
+            }, 3000);
+        }
+
+        function slideDone() {
+            if (nodes.navInner.css('display') !== 'none') {
+                nodes.navInner.css('display', '');
+            }
+        }
+
+        $(window).on('resize', function() {
+            if ($(this).width() > 960) {
+                nodes.navInner.css('display', '');
+            }
+        });
+    });
+    </script>
+    
+        
+<script src="/js/scrollspy.min.js"></script>
+
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+
+        $(window).on('resize', function() {
+            var hw = $('#header').width();
+            var ww = $('#wrapper').width();
+            var space = ($(this).width() - hw - ww) / 2 / 2;
+
+            var pageprev = $('#pageprev');
+            var pagenext = $('#pagenext');
+            var avg = (pageprev.width() + pagenext.width()) / 2
+
+            if(space > avg) {
+                var len = space - avg / 2;
+                var styles = {position: 'fixed', top: '50%', marginTop: - (pageprev.width() + pagenext.width()) / 4}
+                pageprev.css($.extend({left: hw + len}, styles));
+                pagenext.css($.extend({right: len}, styles));
+            } else {
+                pageprev.removeAttr('style');
+                pagenext.removeAttr('style');
+            }
+        }).trigger('resize');
+        </script>
+    
+
+</body>
+</html>

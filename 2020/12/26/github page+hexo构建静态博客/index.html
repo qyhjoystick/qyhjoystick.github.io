@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+
+    
+
+    
+
+    <title>github page+hexo构建静态博客 | qyhjoystick</title>
+    <meta name="author" content="qyh" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="首先，完成整套的搭建需要：1.下载安装git工具下载地址并添加环境变量2.下载安装node.js下载地址3.github上有个自己的账号具备以上条件，我们就可以开始搭建自己的静态博客了打开git bash命令行：1.更换npm镜像为淘宝镜像：npm config set registry http://registry.npm.taobao.org/2.下载hexo：npm install -g hexo3.初始化hexo：自己新建个文件夹，示例中我新建了myblog：进入文件夹，打开gitba" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+
+    
+    <link rel="alternate" href="/atom.xml" title="qyhjoystick" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/images/favicon.ico">
+    
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'icomoon';
+        src: url("/fonts/icomoon.eot?q628ml");
+        src: url("/fonts/icomoon.eot?q628ml#iefix") format('embedded-opentype'),
+             url("/fonts/icomoon.ttf?q628ml") format('truetype'),
+             url("/fonts/icomoon.woff?q628ml") format('woff'),
+             url("/fonts/icomoon.svg?q628ml#icomoon") format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    </style>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!--[if lt IE 9]><style type="text/css">.nav-inner {top:0;}.author-meta {position:static;top:0;}.search-form {height:36px;}</style><script type="text/javascript" src="https://unpkg.com/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+
+    <main class="app">
+        <header id="header" class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">qyhjoystick</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/tags">
+                <span class="nav-text">标签</span>
+            </a>
+        
+            <a class="nav-item" href="/archives">
+                <span class="nav-text">归档</span>
+            </a>
+        
+            <a class="nav-item" href="/about">
+                <span class="nav-text">关于</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://qyhjoystick.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A6%96%E5%85%88%EF%BC%8C%E5%AE%8C%E6%88%90%E6%95%B4%E5%A5%97%E7%9A%84%E6%90%AD%E5%BB%BA%E9%9C%80%E8%A6%81%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">首先，完成整套的搭建需要：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B7%E5%A4%87%E4%BB%A5%E4%B8%8A%E6%9D%A1%E4%BB%B6%EF%BC%8C%E6%88%91%E4%BB%AC%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E4%BA%86"><span class="toc-number">2.</span> <span class="toc-text">具备以上条件，我们就可以开始搭建自己的静态博客了</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content">
+            <div id="wrapper" class="wrapper" style="max-width: 800px">
+                <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            github page+hexo构建静态博客
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://qyhjoystick.github.io/2020/12/26/github%20page+hexo%E6%9E%84%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2020-12-26T13:31:16.202Z" itemprop="datePublished">2020-12-26</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/tags/%E6%90%AD%E5%BB%BA/" rel="tag">搭建</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h1 id="首先，完成整套的搭建需要："><a href="#首先，完成整套的搭建需要：" class="headerlink" title="首先，完成整套的搭建需要："></a>首先，完成整套的搭建需要：</h1><p>1.下载安装git工具<a target="_blank" rel="noopener" href="https://gitforwindows.org/">下载地址</a>并添加环境变量<br>2.下载安装node.js<a target="_blank" rel="noopener" href="https://nodejs.org/en/">下载地址</a><br>3.github上有个自己的账号</p>
+<a id="more"></a>
+
+<h1 id="具备以上条件，我们就可以开始搭建自己的静态博客了"><a href="#具备以上条件，我们就可以开始搭建自己的静态博客了" class="headerlink" title="具备以上条件，我们就可以开始搭建自己的静态博客了"></a>具备以上条件，我们就可以开始搭建自己的静态博客了</h1><hr>
+<p>打开git bash命令行：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-e6830fb809bbdbf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="打开命令行"></p>
+<p>1.更换npm镜像为淘宝镜像：<br><code>npm config set registry http://registry.npm.taobao.org/</code><br>2.下载hexo：<br><code>npm install -g hexo</code><br>3.初始化hexo：<br>自己新建个文件夹，示例中我新建了myblog：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-e8a32948640ca403.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="myblog"><br>进入文件夹，打开gitbash，初始化hexo:<code>hexo init</code>，成功后myblog文件夹多了些东西：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-0090ef7f88a10d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="myblog文件夹"><br>4.对_config.yml进行基础配置：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-94ae1531060ad9e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置"><br>（这里新版本的<code>theme</code>移到文件最后去了，如果如图所示配置的话，需要将后面重复的theme删除）<br>这里主题theme我选择了<code>concise</code>，更多主题移步：<a target="_blank" rel="noopener" href="https://hexo.io/themes/">hexo主题选择</a>（其中有些主题对hexo有别的配置要求，详见每个主题的github）<br>下载我选择的主题:<br><code>git clone https://github.com/sanonz/hexo-theme-concise.git themes/concise</code><br>下载后theme文件夹有：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-005589b1703dec25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="主题包"><br>5.本地查看：<br>运行<code>hexo g &amp;&amp; hexo s</code>，构建并本地启动，默认端口4000，访问localhost:4000<br>6.git pages部署：</p>
+<blockquote>
+<p>1.新建仓库：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-6afbbe5b7af2fcb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新建仓库"><br><img src="https://upload-images.jianshu.io/upload_images/14430142-4780dded9e59d4c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>前后名称要保持一致，然后点击创建仓库按钮<br>2.修改_config.yml：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-64c14b2e105bbf05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>repo写你刚刚创建的仓库地址<br>3.安装hexo自动部署、发布工具（在my page文件夹下运行）：<br><code>npm install hexo-deployer-git  --save</code><br>4.发布到git：<br><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code> 清除public，构建，deploy到git<br>5.访问git page：<br>https://你的用户名.github.io/</p>
+</blockquote>
+<p>7.写文章：<br>在此路径下写下md文件即可：<br><img src="https://upload-images.jianshu.io/upload_images/14430142-6a84165388bf8831.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>之后用命令进行部署<code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code>（实际上只更新public文件夹）</p>
+<p>完成~<br>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/189fd945f38f">搭建个人博客-hexo+github详细完整步骤</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f82c76b90336">Github Pages(一)：一个最基础的个人网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/one-command-deployment">hexo官方文档</a></li>
+</ul>
+
+        
+    </section>
+</article>
+
+
+
+<a id="pagenext" href="/2020/12/24/HTTPS%E5%8E%9F%E7%90%86/" class="article-next" title="HTTPS原理"><i class="icon-arrow-right"></i></a>
+
+
+
+
+
+            </div>
+        </div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e4027971a230b210f4671f485b33846a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://unpkg.com/jquery@1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle('normal', slideDone);
+        });
+
+        if (window.innerWidth <= 960) {
+            setTimeout(function() {
+                nodes.navInner.slideUp('normal', slideDone);
+            }, 3000);
+        }
+
+        function slideDone() {
+            if (nodes.navInner.css('display') !== 'none') {
+                nodes.navInner.css('display', '');
+            }
+        }
+
+        $(window).on('resize', function() {
+            if ($(this).width() > 960) {
+                nodes.navInner.css('display', '');
+            }
+        });
+    });
+    </script>
+    
+        
+<script src="/js/scrollspy.min.js"></script>
+
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+
+        $(window).on('resize', function() {
+            var hw = $('#header').width();
+            var ww = $('#wrapper').width();
+            var space = ($(this).width() - hw - ww) / 2 / 2;
+
+            var pageprev = $('#pageprev');
+            var pagenext = $('#pagenext');
+            var avg = (pageprev.width() + pagenext.width()) / 2
+
+            if(space > avg) {
+                var len = space - avg / 2;
+                var styles = {position: 'fixed', top: '50%', marginTop: - (pageprev.width() + pagenext.width()) / 4}
+                pageprev.css($.extend({left: hw + len}, styles));
+                pagenext.css($.extend({right: len}, styles));
+            } else {
+                pageprev.removeAttr('style');
+                pagenext.removeAttr('style');
+            }
+        }).trigger('resize');
+        </script>
+    
+
+</body>
+</html>
